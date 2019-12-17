@@ -11,7 +11,7 @@ class App extends Component{
   render(){
     return(
       <div>
-        {/* 1) Here: */}
+        {/* 1) Here: Calls 'Board' component. */}
         <Board />
       </div>
     )
@@ -21,7 +21,8 @@ class App extends Component{
 class Board extends Component{
   constructor(){
     super()
-    // 2) Here:
+    // 2) Here:The basic parameters for a new Board are set here.
+    // by this.state
     this.state = {
       gameBoard: Array(9).fill(null),
       currentPlayer: "🦄",
@@ -30,9 +31,10 @@ class Board extends Component{
   }
 
   gamePlay = (index) => {
-    // 3) Here:
+    // 3) Here: Variables have been destructured.
     const { gameBoard, currentPlayer, winner, clickCount } = this.state
-    // 4) Here:
+    // 4) Here: If board is 'null' an emoji will be placed. Then emojis will be
+    // changed by player clicks.
     if(gameBoard[index] === null && winner === null){
       gameBoard[index] = currentPlayer
       this.setState({
@@ -42,7 +44,7 @@ class Board extends Component{
       })
     }
     if(winner === null){
-      // 5) Here:
+      // 5) Here: This checks if someone has won the game.
       this.winning()
     }
   }
@@ -62,7 +64,7 @@ class Board extends Component{
     winningConditions.map(value => {
       const [a, b, c] = value
       if(gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]){
-        // 6) Here:
+        // 6) Here: This resets the winning state of the Board
         this.setState({
           winner: currentPlayer
         })
@@ -72,14 +74,14 @@ class Board extends Component{
 
   render(){
     const { gameBoard, currentPlayer, winner } = this.state
-    // 7) Here:
+    // 7) Here: mappedGameBoard is defined.
     let mappedGameBoard = gameBoard.map((value, index) => {
       return(
         <Square
           value={ value }
           index={ index }
           key={ index }
-          {/* 8) Here: */}
+          {/* 8) Here: gamePlay was defined above now is being called here. */}
           gamePlay={ this.gamePlay }
         />
       )
@@ -89,17 +91,18 @@ class Board extends Component{
         <h1>Tic Tac Toe</h1>
 
           <div className="statusDiv">
-            {/* 9) Here: */}
+            {/* 9) Here: Calls currentPlayer state. This is way is thanks to
+              destructuring */}
             The Current Player is: { currentPlayer }
           </div>
 
           <div className="statusDiv">
-            {/* 10) Here: */}
+            {/* 10) Here: Calls winning state*/}
             The Winner is: { winner }
           </div>
 
           <div id="outcomeBoard">
-            {/* 11) Here: */}
+            {/* 11) Here: Calls mappedGameBoard.*/}
             { mappedGameBoard }
           </div>
 
@@ -111,14 +114,15 @@ class Board extends Component{
 class Square extends Component{
 
   handleSquareClick = () => {
-    // 12) Here:
+    // 12) Here: Defines handleSquareClick function and then is passed props NOT
+    //state.
     this.props.gamePlay(this.props.index)
   }
 
   render(){
     return(
       <div id="square" onClick={ this.handleSquareClick }>
-        {/* 13) Here: */}
+        {/* 13) Here:This makes the values show up on screen. */}
         { this.props.value }
       </div>
     )
